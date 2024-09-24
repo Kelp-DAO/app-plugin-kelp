@@ -40,7 +40,6 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     // Set `next_param` to be the first field we expect to parse.
     // EDIT THIS: Adapt the `cases`, and set the `next_param` to be the first parameter you expect
     // to parse.
-    // test
     switch (context->selectorIndex) {
         case KELP_LST_DEPOSIT:
             context->next_param = TOKEN_ADDR;
