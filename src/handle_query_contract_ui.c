@@ -41,7 +41,7 @@ static bool set_claim_ui(ethQueryContractUI_t *msg, const context_t *context) {
     return true;
 }
 
-static bool handle_kelp_initiate_withdraw(ethQueryContractUI_t *msg, context_t *context) {
+static bool handle_initiate_withdraw(ethQueryContractUI_t *msg, context_t *context) {
     bool ret = false;
 
     memset(msg->title, 0, msg->titleLength);
@@ -53,14 +53,14 @@ static bool handle_kelp_initiate_withdraw(ethQueryContractUI_t *msg, context_t *
             ret = amountToString(context->amount_received,
                                  sizeof(context->amount_received),
                                  WEI_TO_ETHER,
-                                 "RSETH",
+                                 context->ticker,
                                  msg->msg,
                                  msg->msgLength);
             break;
 
         case 1:
             strlcpy(msg->title, "Asset Expected", msg->titleLength);
-            strlcpy(msg->msg, context->ticker, msg->msgLength);
+            strlcpy(msg->msg, context->receive_ticker, msg->msgLength);
             ret = true;
             break;
 
@@ -83,6 +83,8 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
     // EDIT THIS: Adapt the cases for the screens you'd like to display.
     switch (context->selectorIndex) {
+        case GAIN_DEPOSIT_LST:
+        case GAIN_DEPOSIT_RSETH:
         case KELP_LST_DEPOSIT:
             ret = set_stake_ui(msg, context);
             break;
@@ -90,11 +92,13 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             ret = set_claim_ui(msg, context);
             break;
 
+        case GAIN_DEPOSIT_ETH:
         case KELP_ETH_DEPOSIT:
             ret = set_native_token_stake_ui(msg);
             break;
+        case GAIN_WITHDRAW:
         case KELP_INITIATE_WITHDRAW:
-            ret = handle_kelp_initiate_withdraw(msg, context);
+            ret = handle_initiate_withdraw(msg, context);
             break;
 
         default:

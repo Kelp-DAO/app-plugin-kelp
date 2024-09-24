@@ -29,7 +29,11 @@
     X(KELP_LST_DEPOSIT, 0xc3ae1766)       \
     X(KELP_ETH_DEPOSIT, 0x72c51c0b)       \
     X(KELP_INITIATE_WITHDRAW, 0xc8393ba9) \
-    X(KELP_CLAIM_WITHDRAW, 0x6dbaf9ee)
+    X(KELP_CLAIM_WITHDRAW, 0x6dbaf9ee)    \
+    X(GAIN_DEPOSIT_RSETH, 0xb8aa0db9)     \
+    X(GAIN_DEPOSIT_LST, 0xe8c3516b)       \
+    X(GAIN_DEPOSIT_ETH, 0x4e3c04bd)       \
+    X(GAIN_WITHDRAW, 0x7d41c86e)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -66,6 +70,7 @@ typedef struct context_s {
     uint8_t account_addr[ADDRESS_LENGTH];
     uint8_t token_addr[ADDRESS_LENGTH];
     char ticker[MAX_TICKER_LEN];
+    char receive_ticker[MAX_TICKER_LEN];
 
     // For parsing data.
     uint8_t next_param;    // Set to be the next param we expect to parse.

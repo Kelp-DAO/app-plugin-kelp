@@ -4,15 +4,22 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
 
     switch (context->selectorIndex) {
+        case GAIN_DEPOSIT_LST:
         case KELP_LST_DEPOSIT:
         case KELP_CLAIM_WITHDRAW:
             msg->numScreens = 1;
             msg->tokenLookup1 = context->token_addr;
             break;
+
         case KELP_INITIATE_WITHDRAW:
             msg->numScreens = 2;
-            msg->tokenLookup1 = context->token_addr;
+            msg->tokenLookup2 = context->token_addr;
             break;
+        
+        case GAIN_WITHDRAW:
+            msg->numScreens = 2;
+            break;
+
         default:
             msg->numScreens = 1;
             break;

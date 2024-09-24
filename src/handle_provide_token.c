@@ -11,5 +11,8 @@ void handle_provide_token(ethPluginProvideInfo_t *msg) {
     if (msg->item1) {
         strlcpy(context->ticker, (char *) msg->item1->token.ticker, sizeof(context->ticker));
     }
+    if (msg->item2) {
+        strlcpy(context->receive_ticker, (char *) msg->item2->token.ticker, sizeof(context->receive_ticker));
+    }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
