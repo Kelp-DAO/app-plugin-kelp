@@ -7,18 +7,18 @@ This documentation is a template and shall be updated.
 
 This documentation describes the smart contracts and functions supported by the boilerplate plugin.
 
-## Smart Contracts
+#### KELP
 
-Smart contracts covered by the plugin shall be described here:
+| Network | Contract Name | Smart Contract                               |
+| ------- | ------------- | -------------------------------------------- |
+| Ethereum  | LRTDepositPool    | `0x036676389e48133B63a802f8635AD39E752D375D` |
+| Ethereum  | LRTWithdrawalManager    | `0x62de59c08eb5dae4b7e6f7a8cad3006d6965ec16` |
 
-|  Network | Version | Smart Contract | Address |
-|   ----   |   ---   |      ----      |   ---   |
-| NetworkName   | VX  | ContractName  | `0x0000000000000000000000000000000000000000` |
 
-## Functions
-
-For the smart contracts implemented, the functions covered by the plugin shall be described here:
-
-|Contract |    Function   | Selector  | Displayed Parameters |
-|   ---   |    ---        | ---       | --- |
-|ContractName  | FunctionName           | `0x00000000`| <table><tbody> <tr><td><code>type ParameterName</code></td></tr> </tbody></table> |
+Functions covered by above contract/s :
+|Contract | Function | Selector | Displayed Parameters |
+| --- | --- | --- | --- |
+|LRTDepositPool | depositETH(uint256 minRSETHAmountExpected, string calldata referralId) | `0x72c51c0b`| native_token_amount (eth) |
+|LRTDepositPool | depositAsset(address asset, uint256 depositAmount, uint256 minRSETHAmountExpected, string calldata referralId) | `0xc3ae1766`| `asset`, `depositAmount` |
+|LRTWithdrawalManager | initiateWithdrawal(address asset, uint256 rsETHUnstaked) | `0xc8393ba9`| `asset`, `rsETHUnstaked` |
+|LRTWithdrawalManager | completeWithdrawal(address asset) | `0x6dbaf9ee`| `asset` |

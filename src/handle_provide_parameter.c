@@ -1,42 +1,42 @@
 #include "plugin.h"
 
 // EDIT THIS: Remove this function and write your own handlers!
-static void handle_swap_exact_eth_for_tokens(ethPluginProvideParameter_t *msg, context_t *context) {
-    if (context->go_to_offset) {
-        if (msg->parameterOffset != context->offset + SELECTOR_SIZE) {
-            return;
-        }
-        context->go_to_offset = false;
+static void handle_kelp_lst_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
     }
+
     switch (context->next_param) {
-        case MIN_AMOUNT_RECEIVED:  // amountOutMin
-            copy_parameter(context->amount_received,
-                           msg->parameter,
-                           sizeof(context->amount_received));
-            context->next_param = PATH_OFFSET;
+        case TOKEN_ADDR:
+            copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+            context->next_param = STAKE_AMOUNT;
             break;
-        case PATH_OFFSET:  // path
-            context->offset = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
-            context->next_param = BENEFICIARY;
-            break;
-        case BENEFICIARY:  // to
-            copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
-            context->next_param = PATH_LENGTH;
-            context->go_to_offset = true;
-            break;
-        case PATH_LENGTH:
-            context->offset = msg->parameterOffset - SELECTOR_SIZE + PARAMETER_LENGTH * 2;
-            context->go_to_offset = true;
-            context->next_param = TOKEN_RECEIVED;
-            break;
-        case TOKEN_RECEIVED:  // path[1] -> contract address of token received
-            copy_address(context->token_received, msg->parameter, sizeof(context->token_received));
+
+        case STAKE_AMOUNT:
+            handle_amount_received(msg, context);
             context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
             break;
+
         // Keep this
         default:
-            PRINTF("Param not supported: %d\n", context->next_param);
-            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
+static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case TOKEN_ADDR:
+            copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+            context->next_param = UNSTAKE_AMOUNT;
+            break;
+        case UNSTAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+        default:
+            handle_unsupported_param(msg);
             break;
     }
 }
@@ -55,10 +55,19 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
-        case SWAP_EXACT_ETH_FOR_TOKENS:
-            handle_swap_exact_eth_for_tokens(msg, context);
+        case KELP_ETH_DEPOSIT:
+            context->next_param = UNEXPECTED_PARAMETER;
             break;
-        case BOILERPLATE_DUMMY_2:
+        case KELP_LST_DEPOSIT:
+            handle_kelp_lst_deposit(msg, context);
+            break;
+        case KELP_INITIATE_WITHDRAW:
+            handle_kelp_initiate_withdraw(msg, context);
+            break;
+
+        case KELP_CLAIM_WITHDRAW:
+            copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+            context->next_param = UNEXPECTED_PARAMETER;
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
