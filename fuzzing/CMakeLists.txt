@@ -7,7 +7,7 @@ endif()
 # project information
 project(Fuzzer
         VERSION 1.0
-        DESCRIPTION "Contract parser of Boilerplate plugin app"
+        DESCRIPTION "Contract parser of Kelp plugin app"
         LANGUAGES C)
 
 # guard against bad build-type strings
