@@ -78,5 +78,3 @@ typedef struct context_s {
 // Check if the context structure will fit in the RAM section ETH will prepare for us
 // Do not remove!
 ASSERT_SIZEOF_PLUGIN_CONTEXT(context_t);
-
-//test

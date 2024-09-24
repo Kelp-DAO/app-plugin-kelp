@@ -1,6 +1,19 @@
 #include "plugin.h"
 
-// EDIT THIS: Remove this function and write your own handlers!
+// Copy amount sent parameter to amount_received
+static void handle_amount_received(const ethPluginProvideParameter_t *msg, context_t *context) {
+    copy_parameter(context->amount_received, msg->parameter, sizeof(context->amount_received));
+}
+
+static void handle_unsupported_param(ethPluginProvideParameter_t *msg) {
+#ifdef DEBUG
+    context_t *context = (context_t *) msg->pluginContext;
+    PRINTF("Param not supported: %d\n", context->next_param);
+#endif
+
+    msg->result = ETH_PLUGIN_RESULT_ERROR;
+}
+
 static void handle_kelp_lst_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->skip_next_param) {
         return;
