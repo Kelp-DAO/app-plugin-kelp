@@ -69,7 +69,6 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case GAIN_WITHDRAW:
             context->next_param = UNSTAKE_AMOUNT;
-            strlcpy(context->ticker, "RSETH", sizeof(context->ticker));
             break;
 
         // Keep this

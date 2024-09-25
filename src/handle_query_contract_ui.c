@@ -111,7 +111,7 @@ static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) 
 
         case 2:
             strlcpy(msg->title, "Asset Expected", msg->titleLength);
-            strlcpy(msg->msg, context->ticker, msg->msgLength);
+            strlcpy(msg->msg, "RSETH", msg->msgLength);
             ret = true;
             break;
 

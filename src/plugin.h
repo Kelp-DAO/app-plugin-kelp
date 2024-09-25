@@ -70,7 +70,6 @@ typedef struct context_s {
     uint8_t account_addr[ADDRESS_LENGTH];
     uint8_t token_addr[ADDRESS_LENGTH];
     char ticker[MAX_TICKER_LEN];
-    char receive_ticker[MAX_TICKER_LEN];
 
     // For parsing data.
     uint8_t next_param;    // Set to be the next param we expect to parse.
