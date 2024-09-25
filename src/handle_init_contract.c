@@ -54,8 +54,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case KELP_INITIATE_WITHDRAW:
             context->next_param = TOKEN_ADDR;
-            strlcpy(context->ticker, "RSETH", sizeof(context->ticker));
-            strlcpy(context->receive_ticker, "ETH", sizeof(context->receive_ticker));
+            strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
         case KELP_CLAIM_WITHDRAW:
@@ -70,8 +69,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case GAIN_WITHDRAW:
             context->next_param = UNSTAKE_AMOUNT;
-            strlcpy(context->ticker, "AGETH", sizeof(context->ticker));
-            strlcpy(context->receive_ticker, "RSETH", sizeof(context->receive_ticker));
+            strlcpy(context->ticker, "RSETH", sizeof(context->ticker));
             break;
 
         // Keep this

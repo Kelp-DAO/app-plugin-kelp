@@ -13,11 +13,11 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
         case KELP_INITIATE_WITHDRAW:
             msg->numScreens = 2;
-            msg->tokenLookup2 = context->token_addr;
+            msg->tokenLookup1 = context->token_addr;
             break;
         
         case GAIN_WITHDRAW:
-            msg->numScreens = 2;
+            msg->numScreens = 3;
             break;
 
         default:
