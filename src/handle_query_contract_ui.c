@@ -31,13 +31,7 @@ static bool set_stake_ui(ethQueryContractUI_t *msg, const context_t *context) {
 
 static bool set_claim_ui(ethQueryContractUI_t *msg, const context_t *context) {
     strlcpy(msg->title, "Claim", msg->titleLength);
-    // to handle case BSC_STAKEMANAGER_CLAIM_WITHDRAW
-    // selector is same as ETH_MATICX_CLAIM_WITHDRAWAL
-    if (memcmp(msg->network_ticker, "BNB", 3) == 0) {
-        strlcpy(msg->msg, msg->network_ticker, msg->msgLength);
-    } else {
-        strlcpy(msg->msg, context->ticker, msg->msgLength);
-    }
+    strlcpy(msg->msg, context->ticker, msg->msgLength);
     return true;
 }
 
@@ -139,6 +133,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
         case KELP_LST_DEPOSIT:
             ret = set_stake_ui(msg, context);
             break;
+
         case KELP_CLAIM_WITHDRAW:
             ret = set_claim_ui(msg, context);
             break;

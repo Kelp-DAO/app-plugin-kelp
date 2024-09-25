@@ -44,6 +44,25 @@ static void handle_lst_deposit(ethPluginProvideParameter_t *msg, context_t *cont
     }
 }
 
+static void handle_gain_deposit_rseth(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+
+    switch (context->next_param) {
+        case STAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
 static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case TOKEN_ADDR:
@@ -127,8 +146,7 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             break;
 
         case GAIN_DEPOSIT_RSETH:
-            handle_amount_received(msg, context);
-            context->next_param = UNEXPECTED_PARAMETER;
+            handle_gain_deposit_rseth(msg, context);
             break;
 
         case GAIN_WITHDRAW:
