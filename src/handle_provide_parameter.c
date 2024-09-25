@@ -1,5 +1,10 @@
 #include "plugin.h"
 
+// PROTOCOL CONSTANT
+const uint8_t ETH_ADDRESS[ADDRESS_LENGTH] = {0xee, 0xee, 0xee, 0xee, 0xee, 0xee, 0xee,
+                                             0xee, 0xee, 0xee, 0xee, 0xee, 0xee, 0xee,
+                                             0xee, 0xee, 0xee, 0xee, 0xee, 0xee};
+
 static void handle_unsupported_param(ethPluginProvideParameter_t *msg) {
 #ifdef DEBUG
     context_t *context = (context_t *) msg->pluginContext;
@@ -43,6 +48,9 @@ static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, cont
     switch (context->next_param) {
         case TOKEN_ADDR:
             copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+            if (memcmp(context->token_addr, ETH_ADDRESS, sizeof(context->token_addr)) == 0) {
+                strlcpy(context->ticker, "ETH", sizeof(context->ticker));
+            }
             context->next_param = UNSTAKE_AMOUNT;
             break;
         case UNSTAKE_AMOUNT:
@@ -78,6 +86,14 @@ static void handle_gain_withdraw(ethPluginProvideParameter_t *msg, context_t *co
     }
 }
 
+static void handle_kelp_claim_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+    if (memcmp(context->token_addr, ETH_ADDRESS, sizeof(context->token_addr)) == 0) {
+        strlcpy(context->ticker, "ETH", sizeof(context->ticker));
+    }
+    context->next_param = UNEXPECTED_PARAMETER;
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -107,8 +123,7 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             break;
 
         case KELP_CLAIM_WITHDRAW:
-            copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
-            context->next_param = UNEXPECTED_PARAMETER;
+            handle_kelp_claim_withdraw(msg, context);
             break;
 
         case GAIN_DEPOSIT_RSETH:

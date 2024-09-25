@@ -40,7 +40,6 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     // Set `next_param` to be the first field we expect to parse.
     // EDIT THIS: Adapt the `cases`, and set the `next_param` to be the first parameter you expect
     // to parse.
-    // test
     switch (context->selectorIndex) {
         case GAIN_DEPOSIT_LST:
         case KELP_LST_DEPOSIT:
@@ -54,12 +53,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case KELP_INITIATE_WITHDRAW:
             context->next_param = TOKEN_ADDR;
-            strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
         case KELP_CLAIM_WITHDRAW:
             context->next_param = TOKEN_ADDR;
-            strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
         case GAIN_DEPOSIT_RSETH:
