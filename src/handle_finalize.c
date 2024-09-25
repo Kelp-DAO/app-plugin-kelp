@@ -15,7 +15,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 2;
             msg->tokenLookup1 = context->token_addr;
             break;
-        
+
         case GAIN_WITHDRAW:
             msg->numScreens = 3;
             break;

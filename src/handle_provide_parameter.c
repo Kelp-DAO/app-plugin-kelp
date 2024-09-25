@@ -55,7 +55,7 @@ static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, cont
     }
 }
 
-static void handle_gain_withdraw(ethPluginProvideParameter_t *msg, context_t *context){
+static void handle_gain_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->skip_next_param) {
         return;
     }
