@@ -51,12 +51,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case KELP_INITIATE_WITHDRAW:
             context->next_param = TOKEN_ADDR;
-            strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
         case KELP_CLAIM_WITHDRAW:
             context->next_param = TOKEN_ADDR;
-            strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
         // Keep this
