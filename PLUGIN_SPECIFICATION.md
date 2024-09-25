@@ -20,5 +20,5 @@ Functions covered by above contract/s :
 | --- | --- | --- | --- |
 |LRTDepositPool | depositETH(uint256 minRSETHAmountExpected, string calldata referralId) | `0x72c51c0b`| native_token_amount (eth) |
 |LRTDepositPool | depositAsset(address asset, uint256 depositAmount, uint256 minRSETHAmountExpected, string calldata referralId) | `0xc3ae1766`| `asset`, `depositAmount` |
-|LRTWithdrawalManager | initiateWithdrawal(address asset, uint256 rsETHUnstaked) | `0xc8393ba9`| `asset`, `rsETHUnstaked` |
-|LRTWithdrawalManager | completeWithdrawal(address asset) | `0x6dbaf9ee`| `asset` |
+|LRTWithdrawalManager | initiateWithdrawal(address asset, uint256 rsETHUnstaked, string calldata referralId) | `0xc5a67b01`| `asset`, `rsETHUnstaked` |
+|LRTWithdrawalManager | completeWithdrawal(address asset, string calldata referralId) | `0xd3a86833`| `asset` |
