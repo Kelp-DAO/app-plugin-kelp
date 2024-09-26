@@ -64,6 +64,10 @@ static void handle_gain_deposit_rseth(ethPluginProvideParameter_t *msg, context_
 }
 
 static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+
     switch (context->next_param) {
         case TOKEN_ADDR:
             copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
@@ -74,8 +78,9 @@ static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, cont
             break;
         case UNSTAKE_AMOUNT:
             handle_amount_received(msg, context);
-            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
             break;
+
         default:
             handle_unsupported_param(msg);
             break;
@@ -106,11 +111,14 @@ static void handle_gain_withdraw(ethPluginProvideParameter_t *msg, context_t *co
 }
 
 static void handle_kelp_claim_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
     copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
     if (memcmp(context->token_addr, ETH_ADDRESS, sizeof(context->token_addr)) == 0) {
         strlcpy(context->ticker, "ETH", sizeof(context->ticker));
     }
-    context->next_param = UNEXPECTED_PARAMETER;
+    context->skip_next_param = true;
 }
 
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
