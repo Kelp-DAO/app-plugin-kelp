@@ -38,9 +38,6 @@ static bool set_claim_ui(ethQueryContractUI_t *msg, const context_t *context) {
 static bool handle_kelp_initiate_withdraw(ethQueryContractUI_t *msg, context_t *context) {
     bool ret = false;
 
-    memset(msg->title, 0, msg->titleLength);
-    memset(msg->msg, 0, msg->msgLength);
-
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Unstake", msg->titleLength);
@@ -83,9 +80,6 @@ static bool set_account_addr_ui(ethQueryContractUI_t *msg, context_t *context) {
 
 static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) {
     bool ret = false;
-
-    memset(msg->title, 0, msg->titleLength);
-    memset(msg->msg, 0, msg->msgLength);
 
     switch (msg->screenIndex) {
         case 0:
