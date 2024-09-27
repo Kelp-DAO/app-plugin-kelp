@@ -22,3 +22,20 @@ Functions covered by above contract/s :
 |LRTDepositPool | depositAsset(address asset, uint256 depositAmount, uint256 minRSETHAmountExpected, string calldata referralId) | `0xc3ae1766`| `asset`, `depositAmount` |
 |LRTWithdrawalManager | initiateWithdrawal(address asset, uint256 rsETHUnstaked, string calldata referralId) | `0xc5a67b01`| `asset`, `rsETHUnstaked` |
 |LRTWithdrawalManager | completeWithdrawal(address asset, string calldata referralId) | `0xd3a86833`| `asset` |
+
+
+#### GAIN
+
+| Network | Contract Name | Smart Contract                               |
+| ------- | ------------- | -------------------------------------------- |
+| Ethereum  | rsETHAdapter    | `0xbf28C9FCb12A97441488f9C68FaA49811a98688a` |
+| Ethereum  | agETHToken    | `0xe1B4d34E8754600962Cd944B535180Bd758E6c2e` |
+
+
+Functions covered by above contract/s :
+|Contract | Function | Selector | Displayed Parameters |
+| --- | --- | --- | --- |
+|rsETHAdapter | depositRsETH(uint256 rsETHAmount, string calldata referralId) | `0xb8aa0db9`| `rsETHAmount` |
+|rsETHAdapter | getRSETHWithERC20(address asset, uint256 depositAmount, string calldata referralId) | `0xe8c3516b`| `asset`, `depositAmount` |
+|rsETHAdapter | getRSETHWithETH(ether payableAmount, string calldata referralId) | `0x4e3c04bd`|  |
+|agETHToken | requestRedeem(uint256 shares, address receiverAddr, address holderAddr) | `0x7d41c86e`| `shares`, `receiverAddr` |
