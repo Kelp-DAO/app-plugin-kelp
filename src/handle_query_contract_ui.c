@@ -47,7 +47,7 @@ static bool handle_kelp_initiate_withdraw(ethQueryContractUI_t *msg, context_t *
             ret = amountToString(context->amount_received,
                                  sizeof(context->amount_received),
                                  WEI_TO_ETHER,
-                                 "RSETH",
+                                 "rsETH",
                                  msg->msg,
                                  msg->msgLength);
             break;
@@ -93,7 +93,7 @@ static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) 
             ret = amountToString(context->amount_received,
                                  sizeof(context->amount_received),
                                  WEI_TO_ETHER,
-                                 "AGETH",
+                                 "agETH",
                                  msg->msg,
                                  msg->msgLength);
             break;
@@ -105,7 +105,7 @@ static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) 
 
         case 2:
             strlcpy(msg->title, "Asset Expected", msg->titleLength);
-            strlcpy(msg->msg, "RSETH", msg->msgLength);
+            strlcpy(msg->msg, "rsETH", msg->msgLength);
             ret = true;
             break;
 

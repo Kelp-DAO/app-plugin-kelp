@@ -16,6 +16,8 @@ from typing import Optional
 from ledger_app_clients.ethereum.client import EthAppClient
 import ledger_app_clients.ethereum.response_parser as ResponseParser
 
+from . import token_metadata_database
+
 DERIVATION_PATH = "m/44'/60'/0'/0/0"
 makefile_relative_path = "../Makefile"
 
@@ -57,6 +59,14 @@ def load_contract(address):
             )
         )
 
+def set_all_token_metadata(client):
+    for token in token_metadata_database.token_list:
+        client.provide_token_metadata(token.ticker,
+                                           bytes.fromhex(token.address),
+                                           token.decimals,
+                                           token.chain_id)
+
+
 def run_test(contract, data, backend, firmware, navigator, test_name, wallet_addr, chain_id=ChainId.ETH, value=0, gas=300000):
     client = EthAppClient(backend)
 
@@ -65,6 +75,7 @@ def run_test(contract, data, backend, firmware, navigator, test_name, wallet_add
                                contract.address,
                                # Extract function selector from the encoded data
                                get_selector_from_data(data))
+    set_all_token_metadata(client)
 
     tx_params = {
         "nonce": 20,

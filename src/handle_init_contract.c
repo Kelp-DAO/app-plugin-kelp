@@ -61,7 +61,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case GAIN_DEPOSIT_RSETH:
             context->next_param = STAKE_AMOUNT;
-            strlcpy(context->ticker, "RSETH", sizeof(context->ticker));
+            strlcpy(context->ticker, "rsETH", sizeof(context->ticker));
             break;
 
         case GAIN_WITHDRAW:
