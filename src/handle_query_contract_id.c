@@ -14,22 +14,28 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     // EDIT THIS: Adapt the cases by modifying the strings you pass to `strlcpy`.
     switch (context->selectorIndex) {
         case KELP_LST_DEPOSIT:
-            strlcpy(msg->name, "Kelp", msg->nameLength);
             msgVersion = "LST Restake";
             break;
         case KELP_ETH_DEPOSIT:
-            strlcpy(msg->name, "Kelp", msg->nameLength);
             msgVersion = "Native Restake";
             break;
 
         case KELP_INITIATE_WITHDRAW:
-            strlcpy(msg->name, "Kelp", msg->nameLength);
             msgVersion = "Unstake";
             break;
 
         case KELP_CLAIM_WITHDRAW:
-            strlcpy(msg->name, "Kelp", msg->nameLength);
             msgVersion = "Claim";
+            break;
+
+        case GAIN_DEPOSIT_ETH:
+        case GAIN_DEPOSIT_LST:
+        case GAIN_DEPOSIT_RSETH:
+            msgVersion = "Gain Deposit";
+            break;
+
+        case GAIN_WITHDRAW:
+            msgVersion = "Gain Withdraw";
             break;
 
         default:

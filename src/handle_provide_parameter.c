@@ -20,7 +20,7 @@ static void handle_amount_received(const ethPluginProvideParameter_t *msg, conte
 }
 
 // EDIT THIS: Remove this function and write your own handlers!
-static void handle_kelp_lst_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_lst_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->skip_next_param) {
         return;
     }
@@ -44,7 +44,30 @@ static void handle_kelp_lst_deposit(ethPluginProvideParameter_t *msg, context_t 
     }
 }
 
+static void handle_gain_deposit_rseth(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+
+    switch (context->next_param) {
+        case STAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
 static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+
     switch (context->next_param) {
         case TOKEN_ADDR:
             copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
@@ -55,8 +78,32 @@ static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, cont
             break;
         case UNSTAKE_AMOUNT:
             handle_amount_received(msg, context);
-            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
             break;
+
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
+static void handle_gain_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+    switch (context->next_param) {
+        case UNSTAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = ACCOUNT_ADDR;
+            break;
+
+        case ACCOUNT_ADDR:
+            copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
         default:
             handle_unsupported_param(msg);
             break;
@@ -64,11 +111,14 @@ static void handle_kelp_initiate_withdraw(ethPluginProvideParameter_t *msg, cont
 }
 
 static void handle_kelp_claim_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
     copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
     if (memcmp(context->token_addr, ETH_ADDRESS, sizeof(context->token_addr)) == 0) {
         strlcpy(context->ticker, "ETH", sizeof(context->ticker));
     }
-    context->next_param = UNEXPECTED_PARAMETER;
+    context->skip_next_param = true;
 }
 
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
@@ -85,12 +135,16 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
+        case GAIN_DEPOSIT_ETH:
         case KELP_ETH_DEPOSIT:
             context->next_param = UNEXPECTED_PARAMETER;
             break;
+
+        case GAIN_DEPOSIT_LST:
         case KELP_LST_DEPOSIT:
-            handle_kelp_lst_deposit(msg, context);
+            handle_lst_deposit(msg, context);
             break;
+
         case KELP_INITIATE_WITHDRAW:
             handle_kelp_initiate_withdraw(msg, context);
             break;
@@ -98,6 +152,15 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
         case KELP_CLAIM_WITHDRAW:
             handle_kelp_claim_withdraw(msg, context);
             break;
+
+        case GAIN_DEPOSIT_RSETH:
+            handle_gain_deposit_rseth(msg, context);
+            break;
+
+        case GAIN_WITHDRAW:
+            handle_gain_withdraw(msg, context);
+            break;
+
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
