@@ -4,9 +4,9 @@ This is a plugin for the Ethereum application which helps parsing and displaying
 
 ## Setup
 
-1. Clone this repo (along with git submodules)
+1. Clone this [repo](git@github.com:LedgerHQ/app-plugin-kelp.git) (along with git submodules)
     ```shell
-    git clone --recurse-submodules https://github.com/LedgerHQ/app-plugin-kelp.git
+    git clone --recurse-submodules git@github.com:LedgerHQ/app-plugin-kelp.git
     ```
 
 2. Make sure you have an X11 server running:

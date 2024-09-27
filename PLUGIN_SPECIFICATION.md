@@ -1,8 +1,5 @@
 # Technical Specification
 
-> **Warning**
-This documentation is a template and shall be updated.
-
 ## About
 
 This documentation describes the smart contracts and functions supported by the kelp plugin.
@@ -18,7 +15,7 @@ This documentation describes the smart contracts and functions supported by the 
 Functions covered by above contract/s :
 |Contract | Function | Selector | Displayed Parameters |
 | --- | --- | --- | --- |
-|LRTDepositPool | depositETH(uint256 minRSETHAmountExpected, string calldata referralId) | `0x72c51c0b`| native_token_amount (eth) |
+|LRTDepositPool | depositETH(uint256 minRSETHAmountExpected, string calldata referralId) payable | `0x72c51c0b`| native_token_amount (eth) |
 |LRTDepositPool | depositAsset(address asset, uint256 depositAmount, uint256 minRSETHAmountExpected, string calldata referralId) | `0xc3ae1766`| `asset`, `depositAmount` |
 |LRTWithdrawalManager | initiateWithdrawal(address asset, uint256 rsETHUnstaked, string calldata referralId) | `0xc5a67b01`| `asset`, `rsETHUnstaked` |
 |LRTWithdrawalManager | completeWithdrawal(address asset, string calldata referralId) | `0xd3a86833`| `asset` |
@@ -37,5 +34,5 @@ Functions covered by above contract/s :
 | --- | --- | --- | --- |
 |rsETHAdapter | depositRsETH(uint256 rsETHAmount, string calldata referralId) | `0xb8aa0db9`| `rsETHAmount` |
 |rsETHAdapter | getRSETHWithERC20(address asset, uint256 depositAmount, string calldata referralId) | `0xe8c3516b`| `asset`, `depositAmount` |
-|rsETHAdapter | getRSETHWithETH(ether payableAmount, string calldata referralId) | `0x4e3c04bd`|  |
+|rsETHAdapter | getRSETHWithETH(string calldata referralId) payable | `0x4e3c04bd`| native_token_amount (eth) |
 |agETHToken | requestRedeem(uint256 shares, address receiverAddr, address holderAddr) | `0x7d41c86e`| `shares`, `receiverAddr` |
