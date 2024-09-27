@@ -23,10 +23,10 @@ Functions covered by above contract/s :
 
 #### GAIN
 
-| Network | Contract Name | Smart Contract                               |
-| ------- | ------------- | -------------------------------------------- |
+| Network | Contract Name | Smart Contract                                   |
+| ------- | ------------- | ------------------------------------------------ |
 | Ethereum  | rsETHAdapter    | `0xbf28C9FCb12A97441488f9C68FaA49811a98688a` |
-| Ethereum  | agETHToken    | `0xe1B4d34E8754600962Cd944B535180Bd758E6c2e` |
+| Ethereum  | agETHToken    | `0xe1B4d34E8754600962Cd944B535180Bd758E6c2e`   |
 
 
 Functions covered by above contract/s :
