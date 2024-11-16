@@ -128,6 +128,13 @@ static void handle_kelp_claim_withdraw(ethPluginProvideParameter_t *msg, context
     context->skip_next_param = true;
 }
 
+static void handle_vault2_deposit_eth(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->next_param == ACCOUNT_ADDR) {
+        copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+        context->next_param = UNEXPECTED_PARAMETER;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -166,6 +173,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case GAIN_WITHDRAW:
             handle_gain_withdraw(msg, context);
+            break;
+
+        case VAULT2_DEPOSIT_ETH:
+            handle_vault2_deposit_eth(msg, context);
             break;
 
         default:

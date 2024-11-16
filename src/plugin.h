@@ -33,7 +33,10 @@
     X(GAIN_DEPOSIT_RSETH, 0xb8aa0db9)     \
     X(GAIN_DEPOSIT_LST, 0xe8c3516b)       \
     X(GAIN_DEPOSIT_ETH, 0x4e3c04bd)       \
-    X(GAIN_WITHDRAW, 0x7d41c86e)
+    X(GAIN_WITHDRAW, 0x7d41c86e)          \
+    X(VAULT2_DEPOSIT_ETH, 0x31a053cf)     \
+    X(VAULT2_DEPOSIT_LST, 0xd7bfdafc)     \
+    X(VAULT2_WITHDRAW, 0xe088747b)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !

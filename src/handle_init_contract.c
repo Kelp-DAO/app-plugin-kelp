@@ -68,6 +68,11 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = UNSTAKE_AMOUNT;
             break;
 
+        case VAULT2_DEPOSIT_ETH:
+            context->next_param = ACCOUNT_ADDR;
+            strlcpy(context->ticker, "ETH", sizeof(context->ticker));
+            break;
+
         // Keep this
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);

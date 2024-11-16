@@ -114,6 +114,35 @@ static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) 
     return ret;
 }
 
+static bool handle_vault2_deposit_eth(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    const uint8_t *native_token_amount = msg->pluginSharedRO->txContent->value.value;
+    uint8_t native_token_amount_size = msg->pluginSharedRO->txContent->value.length;
+
+    switch (msg->screenIndex) {
+        case 0:
+
+            strlcpy(msg->title, "Deposit", msg->titleLength);
+            ret = amountToString(native_token_amount,
+                                 native_token_amount_size,
+                                 WEI_TO_ETHER,
+                                 context->ticker,
+                                 msg->msg,
+                                 msg->msgLength);
+            break;
+
+        case 1:
+            strlcpy(msg->title, "Vault", msg->titleLength);
+            ret = set_account_addr_ui(msg, context->account_addr);
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -148,6 +177,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case GAIN_WITHDRAW:
             ret = handle_gain_withdraw(msg, context);
+            break;
+
+        case VAULT2_DEPOSIT_ETH:
+            ret = handle_vault2_deposit_eth(msg, context);
             break;
 
         default:

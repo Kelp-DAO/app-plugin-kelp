@@ -20,6 +20,10 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 4;
             break;
 
+        case VAULT2_DEPOSIT_ETH:
+            msg->numScreens = 2;
+            break;
+
         default:
             msg->numScreens = 1;
             break;
