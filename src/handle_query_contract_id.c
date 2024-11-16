@@ -43,6 +43,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             msgVersion = "Vault2 Deposit";
             break;
 
+        case VAULT2_WITHDRAW:
+            msgVersion = "Vault2 Withdraw";
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

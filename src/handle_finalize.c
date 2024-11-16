@@ -22,6 +22,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             break;
 
         case VAULT2_DEPOSIT_ETH:
+        case VAULT2_WITHDRAW:
             msg->numScreens = 2;
             break;
 

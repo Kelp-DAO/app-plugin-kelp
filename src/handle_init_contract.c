@@ -77,6 +77,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = TOKEN_ADDR;
             break;
 
+        case VAULT2_WITHDRAW:
+            context->next_param = ACCOUNT_ADDR;
+            break;
+
         // Keep this
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);

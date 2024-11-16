@@ -143,6 +143,32 @@ static bool handle_vault2_deposit(ethQueryContractUI_t *msg,
     return ret;
 }
 
+static bool handle_vault2_withdraw(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+
+            strlcpy(msg->title, "Withdraw", msg->titleLength);
+            ret = amountToString(context->amount_received,
+                                 sizeof(context->amount_received),
+                                 WEI_TO_ETHER,
+                                 "hgETH",
+                                 msg->msg,
+                                 msg->msgLength);
+            break;
+
+        case 1:
+            strlcpy(msg->title, "Vault", msg->titleLength);
+            ret = set_account_addr_ui(msg, context->account_addr);
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -191,6 +217,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                                         context,
                                         context->amount_received,
                                         sizeof(context->amount_received));
+            break;
+
+        case VAULT2_WITHDRAW:
+            ret = handle_vault2_withdraw(msg, context);
             break;
 
         default:
