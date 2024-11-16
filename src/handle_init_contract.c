@@ -73,6 +73,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
+        case VAULT2_DEPOSIT_LST:
+            context->next_param = TOKEN_ADDR;
+            break;
+
         // Keep this
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);

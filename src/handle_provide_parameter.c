@@ -135,6 +135,34 @@ static void handle_vault2_deposit_eth(ethPluginProvideParameter_t *msg, context_
     }
 }
 
+static void handle_vault2_deposit_lst(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+    switch (context->next_param) {
+        case TOKEN_ADDR:
+            copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+            context->next_param = STAKE_AMOUNT;
+            break;
+
+        case STAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = ACCOUNT_ADDR;
+            break;
+
+        case ACCOUNT_ADDR:
+            copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -177,6 +205,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case VAULT2_DEPOSIT_ETH:
             handle_vault2_deposit_eth(msg, context);
+            break;
+
+        case VAULT2_DEPOSIT_LST:
+            handle_vault2_deposit_lst(msg, context);
             break;
 
         default:

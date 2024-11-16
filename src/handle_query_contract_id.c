@@ -39,7 +39,8 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             break;
 
         case VAULT2_DEPOSIT_ETH:
-            msgVersion = "Vault 2 Deposit";
+        case VAULT2_DEPOSIT_LST:
+            msgVersion = "Vault2 Deposit";
             break;
 
         default:
