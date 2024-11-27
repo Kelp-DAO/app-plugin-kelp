@@ -68,16 +68,16 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = UNSTAKE_AMOUNT;
             break;
 
-        case VAULT2_DEPOSIT_ETH:
+        case GROWTH_VAULT_DEPOSIT_ETH:
             context->next_param = ACCOUNT_ADDR;
             strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
-        case VAULT2_DEPOSIT_LST:
+        case GROWTH_VAULT_DEPOSIT_LST:
             context->next_param = TOKEN_ADDR;
             break;
 
-        case VAULT2_WITHDRAW:
+        case GROWTH_VAULT_WITHDRAW:
             context->next_param = ACCOUNT_ADDR;
             break;
 

@@ -38,13 +38,13 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             msgVersion = "Gain Withdraw";
             break;
 
-        case VAULT2_DEPOSIT_ETH:
-        case VAULT2_DEPOSIT_LST:
-            msgVersion = "Vault2 Deposit";
+        case GROWTH_VAULT_DEPOSIT_ETH:
+        case GROWTH_VAULT_DEPOSIT_LST:
+            msgVersion = "Growth Vault Deposit";
             break;
 
-        case VAULT2_WITHDRAW:
-            msgVersion = "Vault2 Withdraw";
+        case GROWTH_VAULT_WITHDRAW:
+            msgVersion = "Growth Vault Withdraw";
             break;
 
         default:

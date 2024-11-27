@@ -128,14 +128,14 @@ static void handle_kelp_claim_withdraw(ethPluginProvideParameter_t *msg, context
     context->skip_next_param = true;
 }
 
-static void handle_vault2_deposit_eth(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_growth_vault_deposit_eth(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->next_param == ACCOUNT_ADDR) {
         copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
         context->next_param = UNEXPECTED_PARAMETER;
     }
 }
 
-static void handle_vault2_deposit_lst(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_growth_vault_deposit_lst(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->skip_next_param) {
         return;
     }
@@ -163,7 +163,7 @@ static void handle_vault2_deposit_lst(ethPluginProvideParameter_t *msg, context_
     }
 }
 
-static void handle_vault2_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_growth_vault_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->skip_next_param) {
         return;
     }
@@ -226,16 +226,16 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             handle_gain_withdraw(msg, context);
             break;
 
-        case VAULT2_DEPOSIT_ETH:
-            handle_vault2_deposit_eth(msg, context);
+        case GROWTH_VAULT_DEPOSIT_ETH:
+            handle_growth_vault_deposit_eth(msg, context);
             break;
 
-        case VAULT2_DEPOSIT_LST:
-            handle_vault2_deposit_lst(msg, context);
+        case GROWTH_VAULT_DEPOSIT_LST:
+            handle_growth_vault_deposit_lst(msg, context);
             break;
 
-        case VAULT2_WITHDRAW:
-            handle_vault2_withdraw(msg, context);
+        case GROWTH_VAULT_WITHDRAW:
+            handle_growth_vault_withdraw(msg, context);
             break;
 
         default:

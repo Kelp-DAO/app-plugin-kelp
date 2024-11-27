@@ -114,10 +114,10 @@ static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) 
     return ret;
 }
 
-static bool handle_vault2_deposit(ethQueryContractUI_t *msg,
-                                  context_t *context,
-                                  uint8_t *token_amount,
-                                  uint8_t token_amount_size) {
+static bool handle_growth_vault_deposit(ethQueryContractUI_t *msg,
+                                        context_t *context,
+                                        uint8_t *token_amount,
+                                        uint8_t token_amount_size) {
     bool ret = false;
 
     switch (msg->screenIndex) {
@@ -143,7 +143,7 @@ static bool handle_vault2_deposit(ethQueryContractUI_t *msg,
     return ret;
 }
 
-static bool handle_vault2_withdraw(ethQueryContractUI_t *msg, context_t *context) {
+static bool handle_growth_vault_withdraw(ethQueryContractUI_t *msg, context_t *context) {
     bool ret = false;
 
     switch (msg->screenIndex) {
@@ -205,22 +205,24 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             ret = handle_gain_withdraw(msg, context);
             break;
 
-        case VAULT2_DEPOSIT_ETH:
+        case GROWTH_VAULT_DEPOSIT_ETH:
             const uint8_t *native_token_amount = msg->pluginSharedRO->txContent->value.value;
             uint8_t native_token_amount_size = msg->pluginSharedRO->txContent->value.length;
-            ret =
-                handle_vault2_deposit(msg, context, native_token_amount, native_token_amount_size);
+            ret = handle_growth_vault_deposit(msg,
+                                              context,
+                                              native_token_amount,
+                                              native_token_amount_size);
             break;
 
-        case VAULT2_DEPOSIT_LST:
-            ret = handle_vault2_deposit(msg,
-                                        context,
-                                        context->amount_received,
-                                        sizeof(context->amount_received));
+        case GROWTH_VAULT_DEPOSIT_LST:
+            ret = handle_growth_vault_deposit(msg,
+                                              context,
+                                              context->amount_received,
+                                              sizeof(context->amount_received));
             break;
 
-        case VAULT2_WITHDRAW:
-            ret = handle_vault2_withdraw(msg, context);
+        case GROWTH_VAULT_WITHDRAW:
+            ret = handle_growth_vault_withdraw(msg, context);
             break;
 
         default:

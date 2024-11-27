@@ -12,7 +12,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             break;
 
         case KELP_INITIATE_WITHDRAW:
-        case VAULT2_DEPOSIT_LST:
+        case GROWTH_VAULT_DEPOSIT_LST:
             msg->numScreens = 2;
             msg->tokenLookup1 = context->token_addr;
             break;
@@ -21,8 +21,8 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 4;
             break;
 
-        case VAULT2_DEPOSIT_ETH:
-        case VAULT2_WITHDRAW:
+        case GROWTH_VAULT_DEPOSIT_ETH:
+        case GROWTH_VAULT_WITHDRAW:
             msg->numScreens = 2;
             break;
 
