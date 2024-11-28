@@ -225,6 +225,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             ret = handle_growth_vault_withdraw(msg, context);
             break;
 
+        case WRAP_RSETH_OP:
+            ret = handle_kelp_initiate_withdraw(msg, context);
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
     }

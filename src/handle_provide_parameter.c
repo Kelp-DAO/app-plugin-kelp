@@ -207,6 +207,7 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case GAIN_DEPOSIT_LST:
         case KELP_LST_DEPOSIT:
+        case WRAP_RSETH_OP:
             handle_lst_deposit(msg, context);
             break;
 

@@ -23,6 +23,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
         case GROWTH_VAULT_DEPOSIT_ETH:
         case GROWTH_VAULT_WITHDRAW:
+        case WRAP_RSETH_OP:
             msg->numScreens = 2;
             break;
 

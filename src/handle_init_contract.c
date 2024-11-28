@@ -43,20 +43,15 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     switch (context->selectorIndex) {
         case GAIN_DEPOSIT_LST:
         case KELP_LST_DEPOSIT:
+        case KELP_INITIATE_WITHDRAW:
+        case KELP_CLAIM_WITHDRAW:
+        case GROWTH_VAULT_DEPOSIT_LST:
             context->next_param = TOKEN_ADDR;
             break;
 
         case GAIN_DEPOSIT_ETH:
         case KELP_ETH_DEPOSIT:
             context->next_param = UNEXPECTED_PARAMETER;
-            break;
-
-        case KELP_INITIATE_WITHDRAW:
-            context->next_param = TOKEN_ADDR;
-            break;
-
-        case KELP_CLAIM_WITHDRAW:
-            context->next_param = TOKEN_ADDR;
             break;
 
         case GAIN_DEPOSIT_RSETH:
@@ -73,12 +68,13 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             strlcpy(context->ticker, "ETH", sizeof(context->ticker));
             break;
 
-        case GROWTH_VAULT_DEPOSIT_LST:
-            context->next_param = TOKEN_ADDR;
-            break;
-
         case GROWTH_VAULT_WITHDRAW:
             context->next_param = ACCOUNT_ADDR;
+            break;
+
+        case WRAP_RSETH_OP:
+            strlcpy(context->ticker, "rsETH", sizeof(context->ticker));
+            context->next_param = TOKEN_ADDR;
             break;
 
         // Keep this
