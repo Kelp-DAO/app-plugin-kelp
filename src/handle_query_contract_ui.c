@@ -169,6 +169,21 @@ static bool handle_growth_vault_withdraw(ethQueryContractUI_t *msg, context_t *c
     return ret;
 }
 
+static bool handle_claim(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Reciever", msg->titleLength);
+            ret = set_account_addr_ui(msg, context->account_addr);
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -227,6 +242,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case WRAP_RSETH_OP:
             ret = handle_kelp_initiate_withdraw(msg, context);
+            break;
+
+        case CLAIM:
+            ret = handle_claim(msg, context);
             break;
 
         default:

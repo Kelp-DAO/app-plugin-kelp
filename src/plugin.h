@@ -37,7 +37,8 @@
     X(GROWTH_VAULT_DEPOSIT_ETH, 0x31a053cf) \
     X(GROWTH_VAULT_DEPOSIT_LST, 0xd7bfdafc) \
     X(GROWTH_VAULT_WITHDRAW, 0xe088747b)    \
-    X(WRAP_RSETH_OP, 0x47e7ef24)
+    X(WRAP_RSETH_OP, 0x47e7ef24)            \
+    X(CLAIM, 0x2e7ba6ef)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -64,6 +65,7 @@ typedef enum {
     ADDITIONAL_ADDR,
     TOKEN_ADDR,
     UNEXPECTED_PARAMETER,
+    SKIP_PARAMETER,
 } parameter;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.

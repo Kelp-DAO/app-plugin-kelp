@@ -51,6 +51,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             msgVersion = "Wrap rsETH";
             break;
 
+        case CLAIM:
+            msgVersion = "Claim";
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
