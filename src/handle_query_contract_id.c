@@ -47,6 +47,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             msgVersion = "Growth Vault Withdraw";
             break;
 
+        case WRAP_RSETH_OP:
+            msgVersion = "Wrap rsETH";
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
