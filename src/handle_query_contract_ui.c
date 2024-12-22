@@ -190,7 +190,6 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     const uint8_t *native_token_amount;
     uint8_t native_token_amount_size;
 
-
     // msg->title is the upper line displayed on the device.
     // msg->msg is the lower line displayed on the device.
 
