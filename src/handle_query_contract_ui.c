@@ -187,7 +187,7 @@ static bool handle_claim(ethQueryContractUI_t *msg, context_t *context) {
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
-    const uint8_t *native_token_amount = msg->pluginSharedRO->txContent->value.value;
+    uint8_t *native_token_amount = msg->pluginSharedRO->txContent->value.value;
     uint8_t native_token_amount_size = msg->pluginSharedRO->txContent->value.length;
 
     // msg->title is the upper line displayed on the device.
