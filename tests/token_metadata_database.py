@@ -7,5 +7,6 @@ class TokenMetadata:
 
 STETH = TokenMetadata("stETH", "ae7ab96520de3a18e5e111b5eaab095312d7fe84", 18, 1)
 ETHX = TokenMetadata("ETHx", "a35b1b31ce002fbf2058d22f30f95d405200a15b", 18, 1)
+RSETH = TokenMetadata("rsETH", "a1290d69c65a6fe4df752f95823fae25cb99e5a7", 18, 1)
 
-token_list = [STETH, ETHX]
+token_list = [STETH, ETHX, RSETH]

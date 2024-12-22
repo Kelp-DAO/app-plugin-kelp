@@ -73,7 +73,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             break;
 
         case WRAP_RSETH_OP:
-            strlcpy(context->ticker, "rsETH", sizeof(context->ticker));
+            strlcpy(context->ticker, "wrsETH", sizeof(context->ticker));
             context->next_param = TOKEN_ADDR;
             break;
 

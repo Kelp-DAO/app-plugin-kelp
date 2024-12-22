@@ -187,6 +187,9 @@ static bool handle_claim(ethQueryContractUI_t *msg, context_t *context) {
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
+    const uint8_t *native_token_amount;
+    uint8_t native_token_amount_size;
+
 
     // msg->title is the upper line displayed on the device.
     // msg->msg is the lower line displayed on the device.
@@ -221,8 +224,8 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             break;
 
         case GROWTH_VAULT_DEPOSIT_ETH:
-            const uint8_t *native_token_amount = msg->pluginSharedRO->txContent->value.value;
-            uint8_t native_token_amount_size = msg->pluginSharedRO->txContent->value.length;
+            native_token_amount = msg->pluginSharedRO->txContent->value.value;
+            native_token_amount_size = msg->pluginSharedRO->txContent->value.length;
             ret = handle_growth_vault_deposit(msg,
                                               context,
                                               native_token_amount,
