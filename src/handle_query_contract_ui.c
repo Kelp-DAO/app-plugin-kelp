@@ -169,6 +169,32 @@ static bool handle_growth_vault_withdraw(ethQueryContractUI_t *msg, context_t *c
     return ret;
 }
 
+static bool handle_wrap_rseth_op(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Wrap", msg->titleLength);
+            ret = amountToString(context->amount_received,
+                                 sizeof(context->amount_received),
+                                 WEI_TO_ETHER,
+                                 "rsETH",
+                                 msg->msg,
+                                 msg->msgLength);
+            break;
+
+        case 1:
+            strlcpy(msg->title, "Asset Expected", msg->titleLength);
+            strlcpy(msg->msg, context->ticker, msg->msgLength);
+            ret = true;
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
 static bool handle_claim(ethQueryContractUI_t *msg, context_t *context) {
     bool ret = false;
 
@@ -241,7 +267,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             break;
 
         case WRAP_RSETH_OP:
-            ret = handle_kelp_initiate_withdraw(msg, context);
+            ret = handle_wrap_rseth_op(msg, context);
             break;
 
         case CLAIM:
