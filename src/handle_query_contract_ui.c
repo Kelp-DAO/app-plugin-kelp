@@ -114,9 +114,107 @@ static bool handle_gain_withdraw(ethQueryContractUI_t *msg, context_t *context) 
     return ret;
 }
 
+static bool handle_growth_vault_deposit(ethQueryContractUI_t *msg,
+                                        context_t *context,
+                                        uint8_t *token_amount,
+                                        uint8_t token_amount_size) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+
+            strlcpy(msg->title, "Deposit", msg->titleLength);
+            ret = amountToString(token_amount,
+                                 token_amount_size,
+                                 WEI_TO_ETHER,
+                                 context->ticker,
+                                 msg->msg,
+                                 msg->msgLength);
+            break;
+
+        case 1:
+            strlcpy(msg->title, "Vault", msg->titleLength);
+            ret = set_account_addr_ui(msg, context->account_addr);
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
+static bool handle_growth_vault_withdraw(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+
+            strlcpy(msg->title, "Withdraw", msg->titleLength);
+            ret = amountToString(context->amount_received,
+                                 sizeof(context->amount_received),
+                                 WEI_TO_ETHER,
+                                 "hgETH",
+                                 msg->msg,
+                                 msg->msgLength);
+            break;
+
+        case 1:
+            strlcpy(msg->title, "Vault", msg->titleLength);
+            ret = set_account_addr_ui(msg, context->account_addr);
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
+static bool handle_wrap_rseth_op(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Wrap", msg->titleLength);
+            ret = amountToString(context->amount_received,
+                                 sizeof(context->amount_received),
+                                 WEI_TO_ETHER,
+                                 "rsETH",
+                                 msg->msg,
+                                 msg->msgLength);
+            break;
+
+        case 1:
+            strlcpy(msg->title, "Asset Expected", msg->titleLength);
+            strlcpy(msg->msg, context->ticker, msg->msgLength);
+            ret = true;
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
+static bool handle_claim(ethQueryContractUI_t *msg, context_t *context) {
+    bool ret = false;
+
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Reciever", msg->titleLength);
+            ret = set_account_addr_ui(msg, context->account_addr);
+            break;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+    }
+    return ret;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
+    uint8_t *native_token_amount = msg->pluginSharedRO->txContent->value.value;
+    uint8_t native_token_amount_size = msg->pluginSharedRO->txContent->value.length;
 
     // msg->title is the upper line displayed on the device.
     // msg->msg is the lower line displayed on the device.
@@ -148,6 +246,32 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case GAIN_WITHDRAW:
             ret = handle_gain_withdraw(msg, context);
+            break;
+
+        case GROWTH_VAULT_DEPOSIT_ETH:
+            ret = handle_growth_vault_deposit(msg,
+                                              context,
+                                              native_token_amount,
+                                              native_token_amount_size);
+            break;
+
+        case GROWTH_VAULT_DEPOSIT_LST:
+            ret = handle_growth_vault_deposit(msg,
+                                              context,
+                                              context->amount_received,
+                                              sizeof(context->amount_received));
+            break;
+
+        case GROWTH_VAULT_WITHDRAW:
+            ret = handle_growth_vault_withdraw(msg, context);
+            break;
+
+        case WRAP_RSETH_OP:
+            ret = handle_wrap_rseth_op(msg, context);
+            break;
+
+        case CLAIM:
+            ret = handle_claim(msg, context);
             break;
 
         default:

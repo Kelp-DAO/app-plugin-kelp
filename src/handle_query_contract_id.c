@@ -38,6 +38,23 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             msgVersion = "Gain Withdraw";
             break;
 
+        case GROWTH_VAULT_DEPOSIT_ETH:
+        case GROWTH_VAULT_DEPOSIT_LST:
+            msgVersion = "Growth Vault Deposit";
+            break;
+
+        case GROWTH_VAULT_WITHDRAW:
+            msgVersion = "Growth Vault Withdraw";
+            break;
+
+        case WRAP_RSETH_OP:
+            msgVersion = "Wrap rsETH";
+            break;
+
+        case CLAIM:
+            msgVersion = "Claim";
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

@@ -128,6 +128,86 @@ static void handle_kelp_claim_withdraw(ethPluginProvideParameter_t *msg, context
     context->skip_next_param = true;
 }
 
+static void handle_growth_vault_deposit_eth(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->next_param == ACCOUNT_ADDR) {
+        copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+        context->next_param = UNEXPECTED_PARAMETER;
+    }
+}
+
+static void handle_growth_vault_deposit_lst(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+    switch (context->next_param) {
+        case TOKEN_ADDR:
+            copy_address(context->token_addr, msg->parameter, sizeof(context->token_addr));
+            context->next_param = STAKE_AMOUNT;
+            break;
+
+        case STAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = ACCOUNT_ADDR;
+            break;
+
+        case ACCOUNT_ADDR:
+            copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
+static void handle_growth_vault_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+    switch (context->next_param) {
+        case ACCOUNT_ADDR:
+            copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+            context->next_param = UNSTAKE_AMOUNT;
+            break;
+
+        case UNSTAKE_AMOUNT:
+            handle_amount_received(msg, context);
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
+static void handle_claim(ethPluginProvideParameter_t *msg, context_t *context) {
+    if (context->skip_next_param) {
+        return;
+    }
+    switch (context->next_param) {
+        case SKIP_PARAMETER:
+            context->next_param = ACCOUNT_ADDR;
+            break;
+
+        case ACCOUNT_ADDR:
+            copy_address(context->account_addr, msg->parameter, sizeof(context->account_addr));
+            context->next_param = UNEXPECTED_PARAMETER;
+            context->skip_next_param = true;
+            break;
+
+        // Keep this
+        default:
+            handle_unsupported_param(msg);
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -149,6 +229,7 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case GAIN_DEPOSIT_LST:
         case KELP_LST_DEPOSIT:
+        case WRAP_RSETH_OP:
             handle_lst_deposit(msg, context);
             break;
 
@@ -166,6 +247,22 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case GAIN_WITHDRAW:
             handle_gain_withdraw(msg, context);
+            break;
+
+        case GROWTH_VAULT_DEPOSIT_ETH:
+            handle_growth_vault_deposit_eth(msg, context);
+            break;
+
+        case GROWTH_VAULT_DEPOSIT_LST:
+            handle_growth_vault_deposit_lst(msg, context);
+            break;
+
+        case GROWTH_VAULT_WITHDRAW:
+            handle_growth_vault_withdraw(msg, context);
+            break;
+
+        case CLAIM:
+            handle_claim(msg, context);
             break;
 
         default:

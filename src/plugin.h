@@ -25,15 +25,20 @@
 // A Xmacro below will create for you:
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
-#define SELECTORS_LIST(X)                 \
-    X(KELP_LST_DEPOSIT, 0xc3ae1766)       \
-    X(KELP_ETH_DEPOSIT, 0x72c51c0b)       \
-    X(KELP_INITIATE_WITHDRAW, 0xc5a67b01) \
-    X(KELP_CLAIM_WITHDRAW, 0xd3a86833)    \
-    X(GAIN_DEPOSIT_RSETH, 0xb8aa0db9)     \
-    X(GAIN_DEPOSIT_LST, 0xe8c3516b)       \
-    X(GAIN_DEPOSIT_ETH, 0x4e3c04bd)       \
-    X(GAIN_WITHDRAW, 0x7d41c86e)
+#define SELECTORS_LIST(X)                   \
+    X(KELP_LST_DEPOSIT, 0xc3ae1766)         \
+    X(KELP_ETH_DEPOSIT, 0x72c51c0b)         \
+    X(KELP_INITIATE_WITHDRAW, 0xc5a67b01)   \
+    X(KELP_CLAIM_WITHDRAW, 0xd3a86833)      \
+    X(GAIN_DEPOSIT_RSETH, 0xb8aa0db9)       \
+    X(GAIN_DEPOSIT_LST, 0xe8c3516b)         \
+    X(GAIN_DEPOSIT_ETH, 0x4e3c04bd)         \
+    X(GAIN_WITHDRAW, 0x7d41c86e)            \
+    X(GROWTH_VAULT_DEPOSIT_ETH, 0x31a053cf) \
+    X(GROWTH_VAULT_DEPOSIT_LST, 0xd7bfdafc) \
+    X(GROWTH_VAULT_WITHDRAW, 0xe088747b)    \
+    X(WRAP_RSETH_OP, 0x47e7ef24)            \
+    X(CLAIM, 0x2e7ba6ef)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -60,6 +65,7 @@ typedef enum {
     ADDITIONAL_ADDR,
     TOKEN_ADDR,
     UNEXPECTED_PARAMETER,
+    SKIP_PARAMETER,
 } parameter;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
